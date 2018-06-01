@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <EditText
+        android:id="@+id/editText_CriarLocalDestino"
+
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:ems="10"
+        android:hint="Local de Chegada"
+        android:inputType="text"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/editText_CriarLocalOrigem"
+        style="@android:style/Widget.AutoCompleteTextView"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="48dp"
+        android:background="@android:color/background_light"
+        android:elevation="0dp"
+        android:hint=" Local de Partida"
+        android:inputType="text"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:singleLine="false"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_Matricula"
+        style="@android:style/Widget.AutoCompleteTextView"
+        android:layout_width="236dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="44dp"
+        android:background="@android:color/background_light"
+        android:elevation="0dp"
+        android:ems="10"
+        android:hint="MATRICULA"
+        android:inputType="text"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:singleLine="false"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCriarDataBoleia" />
+
+    <Button
+        android:id="@+id/btnCriar"
+        style="@style/Widget.AppCompat.Button.Colored"
+
+        android:layout_width="153dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_btn"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:elevation="24dp"
+        android:text="CANCELAR"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCriar2" />
+
+    <Button
+        android:id="@+id/btnCriar2"
+        style="@style/Widget.AppCompat.Button.Colored"
+
+        android:layout_width="153dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_btn"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:elevation="24dp"
+        android:text="CRIAR"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_Motivo"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textViewCriarHoraBoleia"
+        android:layout_width="152dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/relogio"
+        android:text="HH:mm"
+        android:textAlignment="center"
+        android:textDirection="firstStrongLtr"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewCriarDataBoleia"
+        app:layout_constraintTop_toBottomOf="@+id/editText_CriarLocalDestino" />
+
+    <TextView
+        android:id="@+id/textViewCriarDataBoleia"
+        android:layout_width="189dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/calendario"
+        android:paddingLeft="12dp"
+        android:text="DD/MM/AAAA"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_CriarLocalDestino" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="47dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_CriarLocalOrigem"
+        app:srcCompat="@mipmap/volante" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="99dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:background="@android:color/white"
+        android:entries="@array/lotation_array"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/editText_Matricula"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCriarHoraBoleia" />
+
+    <Switch
+        android:id="@+id/switch_Seguro"
+        android:layout_width="340dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:checked="true"
+        android:text="Seguro Contra todos os riscos?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <Switch
+        android:id="@+id/switch_Motivo"
+        android:layout_width="340dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Deslocação Profissional"
+        app:layout_constraintBottom_toTopOf="@+id/btnCriar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_Seguro"
+        app:layout_constraintVertical_bias="0.0" />
+
+</android.support.constraint.ConstraintLayout>
