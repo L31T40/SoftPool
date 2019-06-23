@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -47,10 +48,7 @@ public class HttpHandler {
         return response;
     }
 
-    public String makeServiceCalla(String reqUrl) {
-        String response = "{ \"Produtos\":[{\"idproduto\":\"1\",\"nomepro\":\"Maças\"},{\"idproduto\":\"2\",\"nomepro\":\"Pedras\"}]}";
-        return response;
-    }
+
 
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));

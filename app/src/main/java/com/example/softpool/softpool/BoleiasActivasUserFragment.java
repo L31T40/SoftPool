@@ -1,18 +1,28 @@
 package com.example.softpool.softpool;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-//import android.app.Fragment;
+import android.os.Environment;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
+import java.io.File;
 import java.util.ArrayList;
+
+//TODO:         PARA APAGAR
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +42,16 @@ public class BoleiasActivasUserFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+
+    private SwipeRefreshLayout swipeLayout;
+    private BoleiasActivasUserFragment.OnFragmentInteractionListener mListener;
+
+
+    public Activity ma;
+
+    DownInfoUserBoleias dpBoleias = new DownInfoUserBoleias(ma);
+
+
 
     public BoleiasActivasUserFragment() {
         // Required empty public constructor
@@ -70,16 +89,90 @@ public class BoleiasActivasUserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.boleias_activas_user_lista_fragment, container, false);
+        final View view = inflater.inflate(R.layout.boleias_activas_user_recyclerview_fragment, container, false);
 
-        DownInfoBoleias dp = new DownInfoBoleias();
-        dp.ma = this;
-        dp.listaprs = new ArrayList<>();
-        dp.lv =  view.findViewById(R.id.listView);
-        dp.execute();
+        ma=getActivity();
+
+        VarGlobals g=(VarGlobals) getActivity().getApplication();
+        final String nfuncglobal=g.NFuncGlobal;
+
+        VarGlobals g1=(VarGlobals) getActivity().getApplication();
+        final String idfuncglobal=g1.idFuncGlobal;
+
+
+        DownInfoViaturas dpViaturas = new DownInfoViaturas();
+
+        dpViaturas.ma = this;
+        dpViaturas.listaprs =  new ArrayList<>();
+        dpViaturas.execute(idfuncglobal,"1");
+        g1.ViaturasUser=dpViaturas.listaprs;
+
+
+        /**inicia a tarefa asynctask de acordo com a pesquisa efectuada*/
+
+        swipeLayout =  view.findViewById(R.id.swipeRefreshLayout_Activas);//faz refresh ao fazer um swipe no ecra
+        //termina a tarefa asynctask antes de iniciar outra
+        swipeLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light);
+        swipeLayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+          @Override
+          public void onRefresh( ) {
+              dpBoleias.cancel(true);
+              dpBoleias=new DownInfoUserBoleias(ma);
+              dpBoleias.listaBoleias = new ArrayList<>();
+              dpBoleias.recyclerview =  view.findViewById(R.id.RecyclerViewActivas);
+              dpBoleias.execute(idfuncglobal);
+
+              Log.d("REFRESH","Vai Refrescar :)");
+              swipeLayout.setRefreshing(false);//termina o refresh senão a animação nao termina
+
+          }});
+
+
+
+        if(dpBoleias!= null && dpBoleias.getStatus() == AsyncTask.Status.FINISHED){
+            Log.d("ASYNCTASK dpBoleias","TERMINOU vou cancelar");
+            dpBoleias.cancel(true);// a asynctask termina e chama o onPostExecute
+            dpBoleias = new DownInfoUserBoleias(ma);
+
+        }
+
+        /**inicia a tarefa asynctask para fazer download da informação de boleia referente ao utilizador que fez o login**/
+        dpBoleias=new DownInfoUserBoleias(ma);
+        dpBoleias.listaBoleias = new ArrayList<>();
+        dpBoleias.recyclerview =  view.findViewById(R.id.RecyclerViewActivas);
+        dpBoleias.execute(idfuncglobal);
+
+
+
+
+        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        View nView =  navigationView.getHeaderView(0);
+
+        TextView nav_user = nView.findViewById(R.id.nav_nomeUser);
+        TextView nav_nfunc = nView.findViewById(R.id.nav_numUser);
+
+        // retira a informação das shared prefrences
+        nav_user.setText(SharedPref.readStr(SharedPref.KEY_NAME, null));
+        nav_nfunc.setText(SharedPref.readStr(SharedPref.KEY_NUMFUNC, null));
+
+        String img=SharedPref.readStr(SharedPref.KEY_FOTO, null);
+        String path = Environment.getExternalStorageDirectory()+ "/Images/"+img;
+
+        File imgFile = new File(path);
+        if(imgFile.exists())
+        {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            ImageView imageView = nView.findViewById(R.id.imageView_User);
+            imageView.setImageBitmap(myBitmap);
+        }
 
         return view;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -104,6 +197,8 @@ public class BoleiasActivasUserFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -2,7 +2,6 @@ package com.example.softpool.softpool;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,9 +35,18 @@ public class UserFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
 
+
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    public static TabLayout tabLayout;
     private ViewPager mViewPager;
+    private Toolbar toolbar;
+    public static int int_items = 2 ; //numero de tabs no fragmento
+    int posTAB=0;
+    private int[] tabIcons = {
+            R.drawable.ic_front_car,
+            R.drawable.ic_search_black_24dp,
+            R.drawable.ic_launcher_background};
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +72,6 @@ public class UserFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,39 +85,35 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /** Inflate do layout para este fragmento**/
         View myview = inflater.inflate(R.layout.user_boleias_activity, container, false);
 
+        VarGlobals g=(VarGlobals) myview.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview
+        g.flagDecoration=false;
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        /** criação do adaptador que vai devolver um fragmento a cada uma das secç~oes da activity**/
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager =  myview.findViewById(R.id.container);
+        /** Criação da viewpager com o adaptador das secções tabs**/
+        mViewPager = myview.findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout =   myview.findViewById(R.id.tabs);
+        mViewPager.setAdapter(new SectionsPagerAdapter(getChildFragmentManager()));
 
-        Toolbar toolbar =   myview.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        tabLayout =  myview.findViewById(R.id.tabs);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        toolbar =  myview.findViewById(R.id.toolbar);
 
+        mViewPager.setCurrentItem(posTAB);
 
-/*
-        //Important!!! Do not fire the existing adapter!!
-        if (viewPagerAdapter == null) {
-            viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-            viewPagerAdapter.addFragments(new AFragment(), "TAB1");
-            viewPagerAdapter.addFragments(new BFragment(), "TAB2");
-        }
-        //Allocate retention buffers for three tabs, mandatory
-        mViewPager.setOffscreenPageLimit(3);
-        tabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setAdapter(ViewPagerAdapter);*/
-
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(mViewPager);
+                setupTabIcons();
+            }
+        });
 
 
         return myview;
@@ -172,12 +174,12 @@ public class UserFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             switch(position){
-                case 0:
-                    BoleiasActivasUserFragment tab1=new BoleiasActivasUserFragment();
-                    return tab1;
-                case 1:
-                    PesquisaBoleiasFragment tab2=new PesquisaBoleiasFragment();
-                    return tab2;
+                case 0 :{posTAB = 0;
+                        return new BoleiasActivasUserFragment();}
+
+                case 1 :{posTAB = 1;
+                          return new BoleiasPesquisaFragment();}
+
                 default:
                     return null;
             }
@@ -185,20 +187,31 @@ public class UserFragment extends Fragment {
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            // mostra numero de páginas
+            return int_items;
         }
+
+
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch(position){
                 case 0:
-                    return "TAB1";
+                    return "BOLEIAS ATIVAS";
                 case 1:
-                    return "TAB2";
+                    return "PESQUISA BOLEIA";
                 default:
-                    return "zero";
+                    return "FOISE";
             }
         }
     }
+
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        //tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+    }
+
+
 }
