@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SoftPool-Android.iml" filepath="$PROJECT_DIR$/SoftPool-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SoftPool.iml" filepath="$PROJECT_DIR$/SoftPool.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
