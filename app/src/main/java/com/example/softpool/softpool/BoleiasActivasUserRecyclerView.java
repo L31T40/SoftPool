@@ -139,7 +139,7 @@ import static android.content.ContentValues.TAG;
                                             dp.jsonObjSend=jsonObject;
                                             dp.urljson= "http://193.137.7.33/~estgv16287/index.php/activas/sairboleiamobile";
                                             dp.execute();
-                                            Utils.minhaTosta(mContext, R.drawable.completo, "Boleia Removida", "short", "sucesso").show();
+                                            Utils.minhaTosta(mContext, R.drawable.completo, "Boleia Removida", "long", "sucesso").show();
 
                                             VarGlobals g1=(VarGlobals) mContext.getApplicationContext();
                                             final String idfuncglobal=g1.idFuncGlobal;
@@ -149,7 +149,7 @@ import static android.content.ContentValues.TAG;
                                             dpBoleias.recyclerview =  view.findViewById(R.id.RecyclerViewActivas);
                                             dpBoleias.execute(idfuncglobal);
                                         } else {
-                                            Utils.minhaTosta(mContext, R.drawable.cancelado, "É Condutor, não pode Cancelar", "short", "erro").show();
+                                            Utils.minhaTosta(mContext, R.drawable.cancelado, "É Condutor, não pode Cancelar", "long", "erro").show();
                                         }
 
 

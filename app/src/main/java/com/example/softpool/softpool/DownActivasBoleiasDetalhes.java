@@ -46,7 +46,6 @@ public class DownActivasBoleiasDetalhes extends AsyncTask<Void, Void, Void> {
     private String idboleia,idviatura,origem,destino,dtapartida,dtachegada,lugaresdisponiveis,objectivo,imgobjectivo,estado,nomecondutor,img;
     private String dataPartida, dataChegada, horaPartida , horaChegada,lotacaoviatura, target;
 
-    Boolean ExisteUser=false;
 
     public ListView lv;
 
@@ -322,7 +321,7 @@ public class DownActivasBoleiasDetalhes extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
         if (pDialog.isShowing()) /**Termina o dialogo se ainda aberto*/
             pDialog.dismiss();
-Boolean existe;
+
         /**
          * upadte dos dados do  parsed JSON para a  RecycleView
          * */
@@ -343,7 +342,7 @@ Boolean existe;
         TextView horachegada_ =  ma.findViewById(R.id.textView_horaChegada); horachegada_.setText(horaChegada);
         TextView lugaresdisponiveis_ =  ma.findViewById(R.id.textView_LugaresDisp); lugaresdisponiveis_.setText(lugaresdisponiveis);
         //ImageView objectivoimg_ =  ma.findViewById(R.id.imageView_Lugares); objectivoimg_.setImageResource(utils.estadoObj[Integer.parseInt(objectivo)]);
-        TextView estado_ =  ma.findViewById(R.id.textView_Estado); estado_.setText(utils.estadoString[Integer.parseInt(estado)]);
+        TextView estado_ =  ma.findViewById(R.id.textView_Estado); estado_.setText(estado);
         ImageView estadoimg_ =  ma.findViewById(R.id.imageView_estado); estadoimg_.setImageResource(utils.estadoIcons[Integer.parseInt(estado)]);
 
 
@@ -354,17 +353,16 @@ Boolean existe;
             ImageView imageView = ma.findViewById(R.id.imageView_Condutor);
             imageView.setImageBitmap(myBitmap);
         }
-        ExisteUser=carregaPassageiros();
+        carregaPassageiros();
 
 
 
     }
 
-private Boolean carregaPassageiros(){ //Carrega imagens de passageiros para o fragment dos detalhes
+private void carregaPassageiros(){ //Carrega imagens de passageiros para o fragment dos detalhes
     Bitmap myBitmap=null;
     mGaleria =  (LinearLayout) ma.findViewById(R.id.Gallery_Passageiros);
     LayoutInflater inflater=LayoutInflater.from(ma);
-    Boolean existeuser=false;
 
     for(int i=0;i<listaprsPassageiro.size();i++) {
 
@@ -374,8 +372,6 @@ private Boolean carregaPassageiros(){ //Carrega imagens de passageiros para o fr
              myBitmap = BitmapFactory.decodeFile(imgPassageirosFile.getAbsolutePath());
 
         }
-        if(listaprsPassageiro.get(i).get("idutilizador").equals(SharedPref.readStr(SharedPref.KEY_USER, null)))
-        {existeuser=true;}
 
         View view = inflater.inflate(R.layout.imagens_passageiros, mGaleria, false);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -395,7 +391,6 @@ private Boolean carregaPassageiros(){ //Carrega imagens de passageiros para o fr
         mGaleria.addView(view);
         Log.e(TAG, "Passageiro: " + i);
         }
-        return existeuser;
     }
 
 

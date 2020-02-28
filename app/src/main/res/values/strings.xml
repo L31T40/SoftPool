@@ -24,7 +24,6 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_campo_vazio">Campo necessário</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
 
@@ -38,7 +37,6 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
         <item>5</item>
         <item>6</item>
         <item>7</item>

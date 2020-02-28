@@ -19,11 +19,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_Partida"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_FiltraData"
         app:srcCompat="@mipmap/volante" />
 
     <Spinner
-        android:id="@+id/spinner_Partida"
+        android:id="@+id/spinner_FiltraData"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginTop="56dp"
@@ -52,7 +52,7 @@
         android:background="@drawable/rounded_btn"
         android:backgroundTint="@color/colorAccent"
         android:elevation="0dp"
-        android:text="APLICAR FILTRO"
+        android:text="FILTRAR"
         android:textAlignment="center"
         android:textColor="@color/cardview_light_background"
         android:textSize="18sp"
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner_Chegada" />
 
     <Button
-        android:id="@+id/btnSim"
+        android:id="@+id/btnPesquisar"
         style="@style/Widget.AppCompat.Button.Colored"
 
         android:layout_width="0dp"

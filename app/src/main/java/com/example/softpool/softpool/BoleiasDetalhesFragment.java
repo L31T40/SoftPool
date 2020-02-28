@@ -2,17 +2,33 @@ package com.example.softpool.softpool;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -40,7 +56,6 @@ public class BoleiasDetalhesFragment extends DialogFragment {
     DownActivasBoleiasDetalhes dDetalhes;
     DownInfoUser dPassageiro;
     public String numPassageiros;
-    public Boolean existeuser=false;
     private Button button;
 
 
@@ -79,7 +94,7 @@ public class BoleiasDetalhesFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.boleias_detalhes_fragment, container, false);
+        final View view = inflater.inflate(R.layout.boleias_activas_detalhes_fragment, container, false);
 
         aa=getActivity();
 
@@ -89,58 +104,56 @@ public class BoleiasDetalhesFragment extends DialogFragment {
             //inicia a tarefa asynctask de acordo com a pesquisa efectuad
             dDetalhes.listaprs = new ArrayList<>();
             dDetalhes.listaprsPassageiro = new ArrayList<>();
-            dDetalhes.ExisteUser=existeuser;
             dDetalhes._idboleia = getArguments().getString("_idboleia");//passa idboleia para pesquisa
             dDetalhes.execute();
 
+
         }
 
-        final TextView ldisponivel = view.findViewById(R.id.textView_LugaresDisp);
 
 
-
-
-        Button btnaddboleia =  view.findViewById(R.id.btnAdicionaBoleia); //Cria a boleia
+        Button btnaddboleia =  view.findViewById(R.id.btnCardDetalhe); //Cria a boleia
         btnaddboleia.setOnClickListener(new View.OnClickListener() { //Adiona utilizador à boleia
             @Override
             public void onClick(View view) {
 
+                TextView ldisponivel = view.findViewById(R.id.textView_LugaresDisp);
+                String ldisponivel_= (String)ldisponivel.getText();
 
-                String ldisponivel_= ldisponivel.getText().toString();
-                if(!dDetalhes.ExisteUser) {
-                    if (!ldisponivel_.equals("0")) {
-                        // passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment
-                        Bundle bundle = new Bundle();
-                        bundle.putString("_idboleia", getArguments().getString("_idboleia"));
+                if(ldisponivel_!="0") {
+                    // passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment
+                    Bundle bundle = new Bundle();
+                    bundle.putString("_idboleia", getArguments().getString("_idboleia"));
 
-                        // Utils.minhaTosta(view, R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
-                        //AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                   // Utils.minhaTosta(view, R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
+                    //AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-                        VarGlobals g = (VarGlobals) view.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview
-                        g.flagDecoration = false;
+                    VarGlobals g = (VarGlobals) view.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview
+                    g.flagDecoration = false;
 
-                        android.support.v4.app.FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                    android.support.v4.app.FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 
-                        Fragment prev = getFragmentManager().findFragmentByTag("BoleiaDetalhesFragment");
-                        if (prev != null) {
-                            ft.remove(prev);
-                        }
-                        ft.addToBackStack(null);
-                        DialogFragment dialogFragment = new BoleiasAdicionaDialogFragment();
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(ft, "BoleiaDetalhesFragment");
-
-                    } else {
-                        Utils.minhaTosta(getActivity(), R.drawable.cancelado, "Lotação Esgotada", "short", "erro").show();
+                    Fragment prev = getFragmentManager().findFragmentByTag("BoleiaDetalhesFragment");
+                    if (prev != null) {
+                        ft.remove(prev);
                     }
+                    ft.addToBackStack(null);
+                    DialogFragment dialogFragment = new BoleiasAdicionaDialogFragment();
+                    dialogFragment.setArguments(bundle);
+                    dialogFragment.show(ft, "BoleiaDetalhesFragment");
 
-                }else {
-                    Utils.minhaTosta(getActivity(), R.drawable.cancelado, "Já Está Nesta Boleia", "short", "erro").show();
+                }else{
+                    Utils.minhaTosta(getActivity(),  R.drawable.cancelado, "Lotação Esgotada", "short", "erro").show();
                 }
+
+
             }
         });
 
         return view;
+
+
+
 
     }
 

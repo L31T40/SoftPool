@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +53,6 @@ public class CriarViaturaFragment extends Fragment {
     EditText edittextMarca, edittextModelo, edittextMatricula;
     ArrayList<String> ListaCombustivel=null;
 
-    public Boolean flagcomb=false;
-    DownInfoCombustivel dpcomb;
 
     public CriarViaturaFragment() {
         // Required empty public constructor
@@ -97,42 +94,9 @@ public class CriarViaturaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.criar_viatura_fragment, container, false);
 
-/*
-        aa=getActivity();
-
-        dpcomb=new DownInfoCombustivel(aa);
-        dpcomb.listaprscomb = new ArrayList<>();
-        dpcomb.flag=flagcomb;
-        dpcomb.execute();
-
-        Boolean flagcomb2=dpcomb.flag;*/
-        ArrayList<String> ListaCombustivel1 = new ArrayList<>();
-
-        ListaCombustivel1.add("Gasóleo");
-        ListaCombustivel1.add("Gasolina");
-        ListaCombustivel1.add("GPL");
-        ListaCombustivel1.add("Eléctrico");
-        ListaCombustivel1.add("Outros");
-
-
- /*       VarGlobals gComb=(VarGlobals)  getActivity().getApplication(); // lista de combustivel
-        gComb.listaCombustivel=dpcomb.listaprscomb;*/
-
-        VarGlobals gComb=(VarGlobals)  getActivity().getApplication(); // lista de combustivel
-        gComb.listaCombustivel=ListaCombustivel1;
 
         VarGlobals gLocais=(VarGlobals) getActivity().getApplication(); /** Buscar a string para o autoextview**/
         ListaCombustivel=gLocais.listaCombustivel;
-/*
-        while (!flagcomb2) {
-            try {
-                Log.e("FLag comb apos while: ", String.valueOf(flagcomb2));
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-*/
 
 
         VarGlobals g=(VarGlobals) view.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview
@@ -175,9 +139,6 @@ public class CriarViaturaFragment extends Fragment {
 
 
 
-
-
-
         /**botao para criação de boleia
          *
          * **/
@@ -206,75 +167,35 @@ public class CriarViaturaFragment extends Fragment {
                 String _viaturapropria = swViaturaPropria;
 
 
-                // Reset aos erros.
-                edittextMarca.setError(null);
-                edittextModelo.setError(null);
-                edittextMatricula.setError(null);
 
-                boolean cancel = false;
-                View focusView = null;
+                /** passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment**/
 
-                // verifica a password caso tenha sido inserida uma
-                if (TextUtils.isEmpty(_marca)) {
-                    edittextMarca.setError(getString(R.string.error_campo_vazio));
-                    focusView = edittextMarca;
-                    cancel = true;
+
+                try{
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("IDUTILIZADOR",_idutilizador);
+                    jsonObject.put("MARCA",_marca);
+                    jsonObject.put("MODELO",_modelo);
+                    jsonObject.put("MATRICULA",_matricula);
+                    jsonObject.put("LOTACAO",_lotacao);
+                    jsonObject.put("IDCOMBUSTIVEL",_combustivel);
+                    jsonObject.put("SEGURO_CONTRA_TODOS_OS_RISCOS",_seguro);
+
+                    aa=getActivity();
+                    EnviarJSONparaBD dp = new EnviarJSONparaBD(aa); //Criar viaturas
+                    dp.jsonObjSend=jsonObject;
+                    dp.urljson= "http://193.137.7.33/~estgv16287/index.php/criar/inserirveiculoandroid";
+                    dp.execute();
+
+
+                }catch (JSONException ex){
+                    //TODO handle Error here
+                    Log.e(TAG, "ERRO " + ex);
                 }
 
-                if (TextUtils.isEmpty(_modelo)) {
-                    edittextModelo.setError(getString(R.string.error_campo_vazio));
-                    focusView = edittextModelo;
-                    cancel = true;
-                }
-
-                if (TextUtils.isEmpty(_matricula)) {
-                    edittextMatricula.setError(getString(R.string.error_campo_vazio));
-                    focusView = edittextMatricula;
-                    cancel = true;
-                }
-
-
-                if (cancel) {
-                    // erro e tenta direcionar o focus para o form field com erro
-                    focusView.requestFocus();
-                } else {
-                    // lança o spinner de progresso e ao mesmo tempo a asynctask de login
-
-
-                    /** passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment**/
-
-
-                    try{
-
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("IDUTILIZADOR",_idutilizador);
-                        jsonObject.put("MARCA",_marca);
-                        jsonObject.put("MODELO",_modelo);
-                        jsonObject.put("MATRICULA",_matricula);
-                        jsonObject.put("LOTACAO",_lotacao);
-                        jsonObject.put("IDCOMBUSTIVEL",_combustivel);
-                        jsonObject.put("SEGURO_CONTRA_TODOS_OS_RISCOS",_seguro);
-
-                        aa=getActivity();
-                        EnviarJSONparaBD dp = new EnviarJSONparaBD(aa); //Criar viaturas
-                        dp.jsonObjSend=jsonObject;
-                        dp.urljson= "http://193.137.7.33/~estgv16287/index.php/criar/inserirveiculoandroid";
-                        dp.execute();
-
-
-                    }catch (JSONException ex){
-                        //TODO handle Error here
-                        Log.e(TAG, "ERRO " + ex);
-                    }
-
-                }
-
-                Utils.minhaTosta(aa,  R.drawable.completo, "Viatura Criada", "short", "sucesso").show();
-                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.popBackStack();
 
             }});
-
 
         Button btncancelar =  view.findViewById(R.id.btnCancelar);
         btncancelar.setOnClickListener(new View.OnClickListener() {

@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements
     boolean doubleBackToExitPressedOnce = false;
     private BoleiasPesquisaFragment mNavigationDrawerFragment;
     public ArrayList<String> listaComb=null;
-    private Boolean flagcomb=false;
 
     //private UserFragment mNavigationDrawerFragment;
 
@@ -70,6 +69,14 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.main_activity);
 
 
+        DownInfoCombustivel dp2 = new DownInfoCombustivel(this); //Classe para fazer o parse do JSON do combustivel
+        dp2.ma = this;
+        dp2.listaprs = new ArrayList<>();
+        dp2.execute();
+        listaComb=dp2.listaprs;
+
+        VarGlobals gComb=(VarGlobals) this.getApplication(); // lista de combustivel
+        gComb.listaCombustivel=dp2.listaprs;
 
         DownInfoLocais dpLocais = new DownInfoLocais(this); //Classe para fazer o parse do JSON com os Locais
         // dpLocais.ma = this;
@@ -78,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements
 
         VarGlobals g2=(VarGlobals) this.getApplication(); // Criar Variavel global com os locais existentes na classe VarGolbals
         g2.listaLocais1=dpLocais.listaprs;
-
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -163,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements
         this.doubleBackToExitPressedOnce = true;
 
 
-        Utils.minhaTosta(this,  R.drawable.cancelado, "Outra vez para sair", "short", "sucesso").show();
+        Utils.minhaTosta(this,  R.drawable.cancelado, "Outra vez para sair", "long", "sucesso").show();
         new Handler().postDelayed(new Runnable() {
 
             @Override

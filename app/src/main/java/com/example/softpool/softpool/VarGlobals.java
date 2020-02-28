@@ -14,6 +14,4 @@ public class VarGlobals extends Application {
     ArrayList<String> listaCombustivel = null; //
     ArrayList<HashMap<String, String>> ViaturasUser = null; // Lista de viatura do Utilizador + Empresa
     Boolean flagDecoration = false; // para detetar decoração na recyclerview
-
-
 }

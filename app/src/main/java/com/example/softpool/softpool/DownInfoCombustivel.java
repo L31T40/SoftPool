@@ -2,24 +2,23 @@ package com.example.softpool.softpool;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
-
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,36 +27,27 @@ import java.util.HashMap;
 import static android.content.ContentValues.TAG;
 
 
-
 public class DownInfoCombustivel extends AsyncTask<Void, Void, Void> {
     private ProgressDialog pDialog;
     private String mParam1;
 
-
-
-    public String _iduser=  "";
-    public Boolean flag=false;
-
     String data ="";
-    String dataParsed = "";
-    String singleParsed ="";
-
-
-
-
 
 
     public Activity ma;
-    //  public BoleiasPesquisaListaFragment ma;
 
-    public DownInfoCombustivel(Activity ma_) { ma = ma_;  } //recebe activity por parametro
+    ArrayList<String> listaprs = new ArrayList<>();
+
+
+
     // URL to get contacts JSON
 
     private static String url = "http://193.137.7.33/~estgv16287/index.php/getjson/getcombustivel";
 
+    public DownInfoCombustivel(Activity ma_) {
+        ma = ma_;
+    } //recebe activity por parametro
 
-    //public ArrayList<HashMap<String, String>> listaprs;
-    public ArrayList<String> listaprscomb;
 
 
 
@@ -79,25 +69,26 @@ public class DownInfoCombustivel extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... arg0) {
         HttpHandler sh = new HttpHandler();
-        String target ="";
+        String response = null;
 
-
-        int count;
 
 
         String jsonStrcomb = sh.makeServiceCall(url);
 
-        Log.e(TAG, "Resposta do URL dados Combustivel" + jsonStrcomb);
-
+        Log.e(TAG, "Resposta do URL dados user" + jsonStrcomb);
 
         if (jsonStrcomb != null) {
             try {
-                JSONArray combustivel = new JSONArray(jsonStrcomb);
-                for (int i = 0; i < combustivel.length(); i++) {
-                    JSONObject pr = combustivel.getJSONObject(i);
-                    String nomecomb = pr.getString("COMBUSTIVEL");
 
-                    listaprscomb.add(nomecomb);
+                JSONArray combustiveis = new JSONArray(jsonStrcomb);
+                for (int i = 0; i < combustiveis.length(); i++) {
+                    JSONObject pr = combustiveis.getJSONObject(i);
+
+                    String nomecomb = pr.getString("COMBUSTIVEL");
+                    HashMap<String, String> combustivel = new HashMap();
+
+                    combustivel.put("nomecomb", String.valueOf(nomecomb));
+                    listaprs.add(nomecomb);
 
                 }
             } catch (final JSONException e) {
@@ -129,7 +120,7 @@ public class DownInfoCombustivel extends AsyncTask<Void, Void, Void> {
 
 
 
-        Log.e(TAG, "COMBUSTIVEL: " + listaprscomb);
+
         return null;
     }
 
@@ -142,12 +133,22 @@ public class DownInfoCombustivel extends AsyncTask<Void, Void, Void> {
         if (pDialog.isShowing())
             pDialog.dismiss();
 
-        flag=true;
 
-        Log.e("FLAG COMBUSTIVEL POST: ",String.valueOf(flag));
+
 
     }
 
 
+
+
+    protected URL stringToURL(String urlString){
+        try{
+            URL url = new URL(urlString);
+            return url;
+        }catch(MalformedURLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

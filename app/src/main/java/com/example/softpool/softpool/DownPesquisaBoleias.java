@@ -1,13 +1,11 @@
 package com.example.softpool.softpool;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,8 +58,7 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
     String _datafiltro=  "";
     String _horafiltro=  "";
 
-    String idboleia;
-    String lugaresdisponiceis_;
+
 
 
     public Activity ma;
@@ -79,7 +76,6 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
 
     // URL to get contacts JSON
     //http://193.137.7.33/~estgv16287/index.php/getjson/PesquisaBoleiasLocais/2/3
-
     private static String url = "http://193.137.7.33/~estgv16287/index.php/getjson/PesquisaBoleiasLocais/";
    // private static String urlData = "http://193.137.7.33/~estgv16287/index.php/getjson/PesquisaBoleiasLocaisData/";
 
@@ -93,54 +89,6 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
         this.listener = listener;
     }
 
-    public String sacaID(String _IDBoleia) {
-        HttpHandler sh1 = new HttpHandler();
-      String lugaresdisponiveis_="";
-       String urlbyid = "http://193.137.7.33/~estgv16287/index.php/getjson/getBoleiaByid/";
-        String jsonStrByid="";
-
-        jsonStrByid = sh1.makeServiceCall(urlbyid+_IDBoleia);
-        if (jsonStrByid != null) {
-            try {
-                JSONArray idboleias = new JSONArray(jsonStrByid);
-                for (int i = 0; i < idboleias.length(); i++) {
-                    JSONObject pr = idboleias.getJSONObject(i);
-
-                    lugaresdisponiveis_ = pr.getString("LUGARES_DISPONIVEIS");
-
-
-                }
-            } catch (final JSONException e) {
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
-                /*runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                       // Toast.makeText(getApplicationContext(),
-                         //       "Json parsing error: " + e.getMessage(),
-                           //     Toast.LENGTH_LONG)
-                            //    .show();
-                    }
-                });
-*/
-            }
-        } else {
-
-            Log.e(TAG, "Couldn't get json from server.");/*
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Couldn't get json from server. Check LogCat for possible errors!",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
-*/
-        }
-
-
-        return lugaresdisponiveis_;
-    }
 
     @Override
     protected void onPreExecute() {
@@ -166,10 +114,7 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
         String jsonStr="";
 
 
-
         String IDutilizador=SharedPref.readStr(SharedPref.KEY_USER, null);
-
-
         int count;
 
       final String urlfinal;
@@ -180,7 +125,6 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
            urlfinal=url+IDutilizador+"/"+PartidaPes+"/"+ChegadaPes;
       }
         jsonStr = sh.makeServiceCall(urlfinal);
-
 
 
         /** para debug String jsonStr = sh.makeServiceCall(url+"Porto/Lisboa/20180529");**/
@@ -200,14 +144,13 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
                 for (int i = 0; i < boleias.length(); i++) {
                     JSONObject pr = boleias.getJSONObject(i);
 
-                    idboleia = pr.getString("IDBOLEIA");
+                    String idboleia = pr.getString("IDBOLEIA");
                     String idviatura = pr.getString("IDVIATURA");
                     String origem = pr.getString("ORIGEM");
                     String destino = pr.getString("DESTINO");
                     String dtapartida = pr.getString("DATA_DE_PARTIDA");
                     String dtachegada = pr.getString("DATA_DE_CHEGADA");
-                    //String lugaresdisponiveis = pr.getString("LUGARES_DISPONIVEIS");
-                    String lugaresdisponiveis = sacaID(idboleia);
+                    String lugaresdisponiveis = pr.getString("LUGARES_DISPONIVEIS");
                     String objectivo = pr.getString("OBJECTIVO_PESSOAL");
 
                     String estado = pr.getString("ESTADO");
@@ -249,14 +192,19 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
                             String aaa = e.getMessage();
                         }
                     }
-                   // HashMap<String, String> boleiapesq = new HashMap();
+                    HashMap<String, String> boleiapesq = new HashMap();
 
                     infoBoleias iBoleias=new infoBoleias();
+
+                    String x1="";
+
                     String dataPartida=utils.stringParaData(String.valueOf(dtapartida),"yyyy-MM-dd hh:mm:ss","dd MMMM"); //devolve data no formato indicado
                     String dataChegada=utils.stringParaData(String.valueOf(dtachegada),"yyyy-MM-dd hh:mm:ss","dd MMMM"); //devolve data no formato indicado
                     String horaPartida=utils.stringParaData(String.valueOf(dtapartida),"yyyy-MM-dd hh:mm:ss","HH:mm"); //devolve data no formato indicado
                     String horaChegada=utils.stringParaData(String.valueOf(dtachegada),"yyyy-MM-dd hh:mm:ss","HH:mm"); //devolve data no formato indicado
+
                     String objectivo_=utils.objetivo(String.valueOf(objectivo));
+
                     iBoleias.setIDboleia(String.valueOf(idboleia));
                     iBoleias.setOrigem(String.valueOf(origem));
                     iBoleias.setDestino(String.valueOf(destino));
@@ -271,7 +219,9 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
                     iBoleias.setImgObjetivo(Integer.toString(utils.estadoObj[Integer.parseInt(objectivo)]));
                     iBoleias.setNome(String.valueOf(nome));
                     iBoleias.setImg(target);
+
                     listaBoleias.add(iBoleias);
+
                     target ="";
 
 
@@ -303,13 +253,6 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
             });
 */
         }
-
-     /*******************************************************/
-
-
-     /*******************************************************/
-
-
         String resultadoJson=String.valueOf(listaBoleias.size());
         return resultadoJson;
     }
@@ -322,6 +265,7 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
 
         if (result.equals("0")) { //se resultado igual a 0
             Utils.minhaTosta(ma,  R.drawable.cancelado, "Sem Registos para mostrar", "short", "erro").show();
+
 
         } else {
             Utils.minhaTosta(ma,  R.drawable.favoritos, "Mostrando "+result+" registos", "short", "sucesso").show();
@@ -343,6 +287,5 @@ public class DownPesquisaBoleias extends AsyncTask<Void, Void, String> {
         pasString=result;
         listener.onResponseReceive(pasString);
     }
-
 
 }

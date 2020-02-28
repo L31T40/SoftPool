@@ -163,7 +163,6 @@ public class CriarBoleiaFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                 item = adapterView.getItemAtPosition(position);
                 itemViatura = adapterView.getItemAtPosition(position);
                 spinnerPosViatura=position;
                 spinnerStringViatura=itemViatura.toString();
@@ -219,7 +218,7 @@ public class CriarBoleiaFragment extends Fragment {
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
 
-        mySpinnerPartida = view.findViewById(R.id.spinner_Partida);
+        mySpinnerPartida = view.findViewById(R.id.spinner_FiltraData);
         mySpinnerPartida.setAdapter(adapterSpinner);
         String localFunc= SharedPref.readStr(SharedPref.KEY_LOCAL, null);
         mySpinnerPartida.setSelection(adapterSpinner.getPosition(localFunc));
@@ -295,6 +294,7 @@ public class CriarBoleiaFragment extends Fragment {
         mySpinnerLotacao = view.findViewById(R.id.spinner_Lotacao);
         matricula = view.findViewById(R.id.editText_Matricula);
 
+
         TextView buttonData = tvdataPartida;
         buttonData.setOnClickListener(new View.OnClickListener()
         {
@@ -305,10 +305,10 @@ public class CriarBoleiaFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         i1 = i1 + 1;
+
                         tvdataPartida.setText(String.format("%02d/%02d/%02d",i2,i1,i));
                     }
                 }, mYear, mMonth, mDay);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() +24*60*60*1000);
                 datePickerDialog.show();
             }});
 
@@ -327,7 +327,6 @@ public class CriarBoleiaFragment extends Fragment {
                         //tvdataChegada.setText(i2 + "/" + i1 + "/" + i);
                     }
                 }, mYear, mMonth, mDay);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() +24*60*60*1000);
                 datePickerDialog.show();
             }});
 
@@ -343,7 +342,7 @@ public class CriarBoleiaFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         //hourOfDay = selectedTimeFormat(hourOfDay);
-                        tvhoraPartida.setText(String.format("%02d : %02d",hourOfDay,minute));
+                        tvhoraPartida.setText(hourOfDay + " : " + minute);
                     }
                 }, hour , minute, true);
                 timePickerDialog.show();
@@ -359,7 +358,7 @@ public class CriarBoleiaFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         //hourOfDay = selectedTimeFormat(hourOfDay);
-                        tvhoraChegada.setText(String.format("%02d : %02d",hourOfDay,minute));
+                        tvhoraChegada.setText(hourOfDay + " : " + minute);
                     }
                 }, hour , minute, true);
                 timePickerDialog.show();
@@ -379,7 +378,7 @@ public class CriarBoleiaFragment extends Fragment {
                 //String strtemp=tempPartida; // variavel temporaria para inverter as posições
                 int posTemp=posPartidaPes;
 
-                t1 = view.findViewById(R.id.spinner_Partida);
+                t1 = view.findViewById(R.id.spinner_FiltraData);
                 mySpinnerPartida.setSelection(posChegadaPes);
 
 
@@ -409,11 +408,11 @@ public class CriarBoleiaFragment extends Fragment {
                     if (partidaArray[j].equals(spinnerPartStr)){
                         spinnerPartStr=ListaLocais.get(j).get("idlocal");
                         Log.e(TAG, "PARAMETRO PARTIDA " + spinnerPartStr);
-                    }
+                    };
                     if (partidaArray[j].equals(spinnerChegStr)){
                         spinnerChegStr=ListaLocais.get(j).get("idlocal");
                         Log.e(TAG, "PARAMETRO CHEGADA " + spinnerChegStr);
-                    }
+                    };
                 }
 
                 String swMotivo="0",swSeguro="0";
@@ -449,7 +448,7 @@ public class CriarBoleiaFragment extends Fragment {
                     dp.jsonObjSend=jsonObject;
                     dp.urljson= "http://193.137.7.33/~estgv16287/index.php/criar/criarboleiamobile";
                     dp.execute();
-                    Utils.minhaTosta(aa,  R.drawable.completo, "Boleia Criada", "short", "sucesso").show();
+                    Utils.minhaTosta(aa,  R.drawable.completo, "Boleia Criada", "long", "sucesso").show();
                 }catch (JSONException ex){
                     //TODO handle Error here
                     Utils.minhaTosta(aa,  R.drawable.cancelado, "ERRO no Servidor", "short", "erro").show();

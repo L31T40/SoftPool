@@ -90,7 +90,7 @@ public class BoleiasFiltrarFragment extends DialogFragment {
 
 
         tvdata =  view.findViewById(R.id.textViewFiltroData);
-        tvhora  =  view.findViewById(R.id.textViewFiltraHora);
+        tvhora  =  view.findViewById(R.id.textViewHora);
 
 
 
@@ -130,7 +130,6 @@ public class BoleiasFiltrarFragment extends DialogFragment {
                         tvdata.setText(String.format("%02d/%02d/%02d",i2,i1,i));
                     }
                 }, mYear, mMonth, mDay);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() +24*60*60*1000);
                 datePickerDialog.show();
             }});
 
@@ -157,7 +156,7 @@ public class BoleiasFiltrarFragment extends DialogFragment {
 
 
 
-        Spinner spinnerFiltraData =  view.findViewById(R.id.spinner_Partida);
+        Spinner spinnerFiltraData =  view.findViewById(R.id.spinner_FiltraData);
         spinnerFiltraData.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -189,19 +188,18 @@ public class BoleiasFiltrarFragment extends DialogFragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         //hourOfDay = selectedTimeFormat(hourOfDay);
-                        tvhora.setText(String.format("%02d : %02d",hourOfDay,minute));
-                      //  tvhora.setText(hourOfDay + "%02d : %02d" + minute);
+                        tvhora.setText(hourOfDay + " : " + minute);
                     }
                 }, hour , minute, true);
                 timePickerDialog.show();
             }});
 
+         ;
 
 
 
 
-
-        Button btnpesquisa =  view.findViewById(R.id.btnSim);
+        Button btnpesquisa =  view.findViewById(R.id.btnPesquisar);
         btnpesquisa.setOnClickListener(new View.OnClickListener()
         {
             @Override

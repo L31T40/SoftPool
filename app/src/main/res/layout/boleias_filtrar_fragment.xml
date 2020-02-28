@@ -10,7 +10,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/textViewFiltraHora"
+        android:id="@+id/textViewHora"
         android:layout_width="178dp"
         android:layout_height="40dp"
         android:layout_marginTop="52dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewFiltroData" />
 
     <Button
-        android:id="@+id/btnSim"
+        android:id="@+id/btnPesquisar"
         style="@style/Widget.AppCompat.Button.Colored"
 
         android:layout_width="326dp"
@@ -46,7 +46,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFiltraHora" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewHora" />
 
     <TextView
         android:id="@+id/textViewFiltroData"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Spinner
-        android:id="@+id/spinner_Partida"
+        android:id="@+id/spinner_FiltraData"
         android:layout_width="120dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -87,10 +87,10 @@
         android:layout_marginEnd="8dp"
         android:elevation="1dp"
         android:entries="@array/filtro_array"
-        app:layout_constraintEnd_toStartOf="@+id/textViewFiltraHora"
+        app:layout_constraintEnd_toStartOf="@+id/textViewHora"
         app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_Partida" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_FiltraData" />
 
     <TextView
         android:id="@+id/textView2"

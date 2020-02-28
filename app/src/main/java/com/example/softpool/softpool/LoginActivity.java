@@ -450,7 +450,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginVerification(String svrmsg){
 
         if (svrmsg.equals("sucesso")){
-            Utils.minhaTosta(this,  R.drawable.completo, "Login com Sucesso", "short", "sucesso").show();
+            Utils.minhaTosta(this,  R.drawable.completo, "Login com Sucesso", "long", "sucesso").show();
 
 
             dpUser.ma = this;
@@ -460,6 +460,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             VarGlobals g=(VarGlobals) getApplication(); // Criar Variavel global com ID utilizador
             g.NFuncGlobal=nfunc;
+
+            VarGlobals g1=(VarGlobals) getApplication(); // Criar Variavel global com ID utilizador
+            g1.idFuncGlobal=SharedPref.readStr(SharedPref.KEY_USER, null);;
+
 
 
 

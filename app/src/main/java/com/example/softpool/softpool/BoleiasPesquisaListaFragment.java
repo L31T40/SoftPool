@@ -3,7 +3,6 @@ package com.example.softpool.softpool;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -133,8 +132,6 @@ public class BoleiasPesquisaListaFragment extends Fragment {
             dpesq._datafiltro = getArguments().getString("_datafiltro");
             dpesq._horafiltro = getArguments().getString("_horafiltro");
             dpesq.execute();
-
-
 
         }
 

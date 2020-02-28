@@ -86,6 +86,7 @@ public class BoleiasPesquisaRecyclerView extends RecyclerView.Adapter<BoleiasPes
         {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             holder.mImgcondutor.setImageBitmap(myBitmap);
+
         }
 
         holder.mEstado.setText(ilBoleiasPos.getEstado());
@@ -101,25 +102,26 @@ public class BoleiasPesquisaRecyclerView extends RecyclerView.Adapter<BoleiasPes
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment
+                Bundle bundle=new Bundle();
+                bundle.putString("_idboleia",ilBoleias.get(position).getIDboleia());
+                //Log.e(TAG, "CARDVIEW CARDVIEW: " +  String.valueOf(ilBoleias.get(position).getOrigem()));
+                Utils.minhaTosta(mContext,  R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                Fragment myFragment = new BoleiasDetalhesFragment();
+                myFragment.setArguments(bundle);
 
-                    // passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment
-                    Bundle bundle = new Bundle();
-                    bundle.putString("_idboleia", ilBoleias.get(position).getIDboleia());
-                    //Log.e(TAG, "CARDVIEW CARDVIEW: " +  String.valueOf(ilBoleias.get(position).getOrigem()));
-                    // Utils.minhaTosta(mContext,  R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    Fragment myFragment = new BoleiasDetalhesFragment();
-                    myFragment.setArguments(bundle);
+                VarGlobals g=(VarGlobals) v.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview
+                g.flagDecoration=false;
 
-                    VarGlobals g = (VarGlobals) v.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview
-                    g.flagDecoration = false;
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, myFragment)
+                        .addToBackStack("BoleiasPesquisaRecyclerView")
+                        .commit();
 
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.content_frame, myFragment)
-                            .addToBackStack("BoleiasPesquisaRecyclerView")
-                            .commit();
-                }
+
+            }
         });
 
         holder.btnDireita.setOnClickListener(new View.OnClickListener() { // mostra detalhes da boleia
@@ -129,7 +131,7 @@ public class BoleiasPesquisaRecyclerView extends RecyclerView.Adapter<BoleiasPes
                 Bundle bundle=new Bundle();
                 bundle.putString("_idboleia",ilBoleias.get(position).getIDboleia());
                 //Log.e(TAG, "CARDVIEW CARDVIEW: " +  String.valueOf(ilBoleias.get(position).getOrigem()));
-                //Utils.minhaTosta(mContext,  R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
+                Utils.minhaTosta(mContext,  R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
                 Fragment myFragment = new BoleiasDetalhesFragment();
@@ -150,16 +152,17 @@ public class BoleiasPesquisaRecyclerView extends RecyclerView.Adapter<BoleiasPes
 
 
 
+
         holder.btnEsquerda.setOnClickListener(new View.OnClickListener() { //Adiona utilizador à boleia
             @Override
             public void onClick(View view) {
 
-                if(!(ilBoleias.get(position).getLugaresdisponiveis()).equals("0")) {
+                if((ilBoleias.get(position).getLugaresdisponiveis())!="0") {
                     // passa as strings por parametro usando o metodo para BoleiasPesquisaListaFragment
                     Bundle bundle = new Bundle();
                     bundle.putString("_idboleia", ilBoleias.get(position).getIDboleia());
 
-                    //Utils.minhaTosta(mContext, R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
+                    Utils.minhaTosta(mContext, R.drawable.completo, String.valueOf(ilBoleias.get(position).getNome()), "short", "sucesso").show();
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
                     VarGlobals g = (VarGlobals) view.getContext().getApplicationContext(); // variavel global para detetar se foi feita a decoração no recyclerview

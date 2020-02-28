@@ -8,12 +8,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +89,7 @@ public class BoleiasActivasDetalhesFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.boleias_detalhes_fragment, container, false);
+        final View view = inflater.inflate(R.layout.boleias_activas_detalhes_fragment, container, false);
 
         ma=getActivity();
 
@@ -103,7 +105,7 @@ public class BoleiasActivasDetalhesFragment extends DialogFragment {
 
 
 
-        Button btnaddboleia =  view.findViewById(R.id.btnAdicionaBoleia); //Cria a boleia
+        Button btnaddboleia =  view.findViewById(R.id.btnCardDetalhe); //Cria a boleia
 
         btnaddboleia.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_boleia_cancel, 0, 0, 0);
         btnaddboleia.setText("SAIR BOLEIA");
@@ -137,7 +139,7 @@ public class BoleiasActivasDetalhesFragment extends DialogFragment {
                                         dp.jsonObjSend=jsonObject;
                                         dp.urljson= "http://193.137.7.33/~estgv16287/index.php/activas/sairboleiamobile";
                                         dp.execute();
-                                        Utils.minhaTosta(ma, R.drawable.completo, "Boleia Removida", "short", "sucesso").show();
+                                        Utils.minhaTosta(ma, R.drawable.completo, "Boleia Removida", "long", "sucesso").show();
 
                                         VarGlobals g1=(VarGlobals) ma.getApplicationContext();
                                         final String idfuncglobal=g1.idFuncGlobal;
@@ -147,7 +149,7 @@ public class BoleiasActivasDetalhesFragment extends DialogFragment {
                                         dpBoleias.recyclerview =  ma.findViewById(R.id.RecyclerViewActivas);
                                         dpBoleias.execute(idfuncglobal);
                                     } else {
-                                        Utils.minhaTosta(getActivity(), R.drawable.cancelado, "É Condutor, não pode Cancelar", "short", "erro").show();
+                                        Utils.minhaTosta(getActivity(), R.drawable.cancelado, "É Condutor, não pode Cancelar", "long", "erro").show();
                                     }
 
 

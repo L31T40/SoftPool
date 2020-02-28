@@ -23,10 +23,12 @@ import android.widget.Button;
 
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
@@ -107,14 +109,12 @@ public class BoleiasPesquisaFragment extends Fragment {
         VarGlobals gLocais=(VarGlobals) getActivity().getApplication(); // Buscar a string para o autoextview
         ListaLocais=gLocais.listaLocais1;
 
-        int tamanho = ListaLocais.size()+1;
 
-
-        String spinnerArray[] = new String[tamanho]; // coloca os nomes das cidade em um array para apresentar no spinner
-        if (tamanho>0) {
-            spinnerArray[0]=" ";
-            for (int j = 0; j < tamanho-1; j++) {
-                spinnerArray[j+1] = ListaLocais.get(j).get("nomecidade");
+        String spinnerArray[] = new String[ListaLocais.size()]; // coloca os nomes das cidade em um array para apresentar no spinner
+        if (ListaLocais.size()>0) {
+            spinnerArray[0] = " ";
+            for (int j = 1; j < ListaLocais.size(); j++) {
+                spinnerArray[j] = ListaLocais.get(j).get("nomecidade");
                 Log.e(TAG, "DADOS SPINNER " + spinnerArray[j]);
             }
         }else {
@@ -127,7 +127,7 @@ public class BoleiasPesquisaFragment extends Fragment {
                 android.R.layout.simple_spinner_item, spinnerArray);
 
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        mySpinnerPartida = view.findViewById(R.id.spinner_Partida);
+        mySpinnerPartida = view.findViewById(R.id.spinner_FiltraData);
         mySpinnerPartida.setAdapter(adapterSpinner);
         String localFunc= SharedPref.readStr(SharedPref.KEY_LOCAL, null);
         mySpinnerPartida.setSelection(adapterSpinner.getPosition(localFunc));
@@ -201,7 +201,7 @@ public class BoleiasPesquisaFragment extends Fragment {
                 String strtemp=tempPartida; // variavel temporaria para inverter as posições
                 int posTemp=posPartidaPes;
 
-                t1 = view.findViewById(R.id.spinner_Partida);
+                t1 = view.findViewById(R.id.spinner_FiltraData);
                 mySpinnerPartida.setSelection(posChegadaPes);
 
 
@@ -218,7 +218,7 @@ public class BoleiasPesquisaFragment extends Fragment {
 
 
 
-        Button btnpesquisa =  view.findViewById(R.id.btnSim);
+        Button btnpesquisa =  view.findViewById(R.id.btnPesquisar);
         btnpesquisa.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -277,11 +277,11 @@ public class BoleiasPesquisaFragment extends Fragment {
                     if (partidaArray[j].equals(spinnerPartStr)){
                         spinnerPartStr=ListaLocais.get(j).get("idlocal");
                         Log.e(TAG, "PARAMETRO PARTIDA " + spinnerPartStr);
-                    }
+                    };
                     if (partidaArray[j].equals(spinnerChegStr)){
                         spinnerChegStr=ListaLocais.get(j).get("idlocal");
                         Log.e(TAG, "PARAMETRO CHEGADA " + spinnerChegStr);
-                    }
+                    };
                 }
 
 

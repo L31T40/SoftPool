@@ -140,10 +140,6 @@ public class DownInfoUser extends AsyncTask<String, Void, Void> {
                     }
 
 /**Guardar dados do utilizador nas sharedpreferences*/
-
-                    VarGlobals g1=(VarGlobals) ma.getApplication(); // Criar Variavel global com ID utilizador
-                    g1.idFuncGlobal=pr.getString("IDUTILIZADOR");
-
                     SharedPref.writeStr(SharedPref.KEY_USER, pr.getString("IDUTILIZADOR"));
                     SharedPref.writeStr(SharedPref.KEY_NUMFUNC, pr.getString("NFUNCIONARIO"));
                     SharedPref.writeStr(SharedPref.KEY_LOCAL, pr.getString("NOME_CIDADE"));
