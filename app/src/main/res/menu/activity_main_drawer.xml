@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_area_user"
+            android:icon="@drawable/baseline_person_pin_black_18dp"
+            android:title="@string/area_user" />
+        <item
+            android:id="@+id/nav_criar_boleias"
+            android:icon="@drawable/baseline_add_location_black_18dp"
+            android:title="@string/criar_boleias" />
+        <item
+            android:id="@+id/nav_criar_viatura"
+            android:icon="@drawable/baseline_directions_car_black_18dp"
+            android:title="@string/criarviatura" />
+        <item
+            android:id="@+id/nav_pesquisa_boleias"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/pesq_boleias" />
+<!--        <item
+            android:id="@+id/nav_listar_boleias"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/listar_boleias" />-->
+    </group>
+
+    <item android:title="  ">
+        <menu>
+           <!-- <item
+                android:id="@+id/nav_alterapass"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Alterar Password" />-->
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+
+</menu>
